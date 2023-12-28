@@ -93,3 +93,27 @@ CF = CF1 + CF2 + CF3
 
 
 NPV = sum(cf / ((1 + i) ** (t + 1)) for t, cf in enumerate([CF1, CF2, CF3]))
+
+
+
+T = 0.32 
+i = 0.10 
+I0 = 3_400_000
+P1 = np.random.triangular(5.90, 6.00, 6.10, num_samples) 
+P2 = np.random.triangular(5.95, 6.05, 6.15, num_samples) 
+P3 = np.random.triangular(6.00, 6.10, 6.20, num_samples) 
+Q1 = np.random.normal(802000, 25000, num_samples) 
+Q2 = np.random.normal(967000, 30000, num_samples) 
+Q3 = np.random.normal(1132000, 25000, num_samples)
+X = np.random.triangular(50, 55, 65, num_samples) / 100 
+Y = np.random.normal(15, 2, num_samples) / 100
+
+
+CF1 = CFt(T, Q1, P1, X, Y)
+CF2 = CFt(T, Q2, P2, X, Y)
+CF3 = CFt(T, Q3, P3, X, Y)
+CF = CF1 + CF2 + CF3
+
+NPV = sum(cf / ((1 + i) ** (t + 1)) for t, cf in enumerate([CF1, CF2, CF3])) - I0
+
+PI = (CF1/(1 + i) + CF2/((1 + i)**2) + CF3/((1 + i)**3)) / I0
